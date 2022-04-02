@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <h1>Bonjour {{ app.user.firstname }} 👋</h1>
+
+    <p>
+        Bienvenue sur <strong>Crowd News</strong> ! Cette plateforme te permet de partager ton actualité aux membres de la coopérative.
+    </p>
+
+    <p>Pour partager, rien de plus simple : tu peux <a href="{{ path('news_new') }}">créer une actualité</a> qui sera
+        envoyée dans le prochaine infolettre prévue pour lundi prochain !</p>
+{% endblock %}

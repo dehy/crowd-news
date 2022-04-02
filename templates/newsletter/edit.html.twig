@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Édition d'une infolettre{% endblock %}
+
+{% block body %}
+    <h1>Édition d'une infolettre</h1>
+
+    {{ include('newsletter/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('newsletter_index') }}">retour à la liste</a>
+
+    {{ include('newsletter/_delete_form.html.twig') }}
+{% endblock %}

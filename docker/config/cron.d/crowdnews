@@ -1,1 +1,1 @@
-* * * * * /bin/true
+0 6 * * 1 symfony /app/bin/console app:newsletter:send

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des infolettres{% endblock %}
+
+{% block body %}
+    <h1>Liste des infolettres</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th>Nombre d'actualités</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for newsletter in newsletters %}
+            <tr>
+                <td>{{ newsletter.id }}</td>
+                <td>
+                    {% if newsletter.isSent %}
+                        <span class="badge bg-success">envoyée</span>
+                    {% else %}
+                        <span class="badge bg-secondary">brouillon</span>
+                    {% endif %}
+                </td>
+                <td>{{ newsletter.news.count }}</td>
+                <td>
+                    <a href="{{ path('newsletter_show', {'id': newsletter.id}) }}">voir</a>
+                    <a href="{{ path('newsletter_edit', {'id': newsletter.id}) }}">modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">aucune infolettre actuellement</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('newsletter_new') }}">Préparer une nouvelle infolettre</a>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'security/base.html.twig' %}
+
+
+
+{% block content %}
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    <form action="{{ path('login') }}" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">Email</label>
+            <input type="email" class="form-control" id="username" name="_username" value="{{ last_username }}">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input type="password" class="form-control" id="password" name="_password"/>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        {# If you want to control the URL the user is redirected to on success
+        <input type="hidden" name="_target_path" value="/account"/> #}
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Se connecter</button>
+            <a href="" class="btn btn-link">Mot de passe oublié</a>
+        </div>
+    </form>
+{% endblock %}

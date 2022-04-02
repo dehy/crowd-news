@@ -1,0 +1,29 @@
+{% set date = date() %}
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Coop' News du {{ date|format_datetime(dateFormat="full", timeFormat="none", locale="fr") }}</title>
+
+    </head>
+    <body>
+        <h1>
+            Infolettre des entrepreneurs Coop'Alpha<br>
+            <small>{{ date|format_datetime(dateFormat="full", timeFormat="none", locale="fr") }}</small>
+        </h1>
+
+        {% if newsletter.news.count > 0 %}
+        <ul>
+            {% for news in newsletter.news %}
+            <li>
+                <h3>{{ news.title }} <small class="author">par {{ news.author }}</small></h3>
+                <p>{{ news.abstract }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            Aucune actualité pour cette semaine !
+        {% endif %}
+    </body>
+</html>

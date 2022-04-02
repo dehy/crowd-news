@@ -15,6 +15,7 @@
         {% endblock %}
     </head>
     <body>
+        {% set route_name = app.request.attributes.get('_route') %}
         <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
             <div class="container">
                 <a class="navbar-brand" href="{{ path('home') }}">
@@ -26,20 +27,66 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Accueil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('news_index') }}">Dernières news</a>
+                            <a class="nav-link {{ route_name == "home" ? "active" }}" aria-current="page" href="{{ path('home') }}">
+                                <span class="fas fa-home fa-fw"></span>
+                                Accueil
+                            </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
+                                <span class="fas fa-newspaper fa-fw"></span> Actualités
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('news_index') }}">
+                                        <span class="fas fa-clock-rotate-left fa-fw"></span> Dernières actualités
+                                    </a>
+                                </li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('news_new') }}">
+                                        <span class="fas fa-plus-square fa-fw"></span> Nouvelle actualité
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="fas fa-envelopes-bulk"></span> Infolettres
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('newsletter_index') }}">
+                                        <span class="fas fa-archive fa-fw"></span> Archives
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('newsletter_next') }}">
+                                        <span class="fas fa-square-plus fa-fw"></span>
+                                        Prochaine infolettre
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ app.user }} <span class="fas fa-user fa-fw"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item disabled" href="#">
+                                        <span class="fas fa-gears fa-fw"></span> Réglages
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('logout') }}">
+                                        <span class="fas fa-right-from-bracket fa-fw"></span> Se déconnecter
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

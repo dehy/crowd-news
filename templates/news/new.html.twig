@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle actualité{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle actualité</h1>
+
+    <div class="alert alert-info">
+        Merci de ne pas poster la même actualité toutes les semaines.
+    </div>
+
+    {{ include('news/_form.html.twig') }}
+
+    <a href="{{ path('news_index') }}">retour à la liste</a>
+{% endblock %}

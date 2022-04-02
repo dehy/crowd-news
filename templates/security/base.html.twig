@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col my-5">
+            <img src="{{ asset('build/crowd-news-logo.png') }}" class="mx-auto d-block" alt="Crowd News Logo">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-tabs mx-auto" style="width: 30rem;">
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.attributes.get('_route') == 'login' ? 'active' }}" href="{{ path('login') }}">Connexion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.attributes.get('_route') == 'register' ? 'active' }}" href="{{ path('register') }}">Enregistrement</a>
+            </ul>
+            <div class="card mx-auto border-top-0 rounded-0 rounded-bottom" style="width: 30rem;">
+                <div class="card-body">
+                    {{ block('content') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
