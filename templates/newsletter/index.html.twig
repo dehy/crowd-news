@@ -33,11 +33,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">aucune infolettre actuellement</td>
+                <td colspan="4">aucune infolettre envoyée pour l'instant</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('newsletter_new') }}">Préparer une nouvelle infolettre</a>
+    <a href="{{ path('newsletter_next') }}">Voir la prochaine infolettre</a>
 {% endblock %}

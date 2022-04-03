@@ -13,7 +13,7 @@ class NewsletterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('sendAt', DateTimeType::class, [
+            ->add('scheduledFor', DateTimeType::class, [
                 'label' => 'À envoyer le',
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',

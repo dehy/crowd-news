@@ -14,11 +14,11 @@
                     <td>{{ newsletter.id }}</td>
                 </tr>
                 <tr>
-                    <th>SendAt</th>
-                    <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <th>Prévue pour le</th>
+                    <td>{{ newsletter.scheduledFor ? newsletter.scheduledFor|date('Y-m-d H:i:s') : '' }}</td>
                 </tr>
                 <tr>
-                    <th>SentAt</th>
+                    <th>Envoyée le</th>
                     <td>{{ newsletter.sentAt ? newsletter.sentAt|date('Y-m-d H:i:s') : '' }}</td>
                 </tr>
                 </tbody>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Newsletter;
+use App\Exception\NonUpdatableException;
 use App\Form\NewsletterType;
 use App\Repository\NewsletterRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,28 +19,7 @@ class NewsletterController extends AbstractController
     public function index(NewsletterRepository $newsletterRepository): Response
     {
         return $this->render('newsletter/index.html.twig', [
-            'newsletters' => $newsletterRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'newsletter_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $newsletter = new Newsletter();
-
-        $form = $this->createForm(NewsletterType::class, $newsletter);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($newsletter);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('newsletter_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('newsletter/new.html.twig', [
-            'newsletter' => $newsletter,
-            'form' => $form,
+            'newsletters' => $newsletterRepository->findSent(),
         ]);
     }
 
@@ -74,6 +54,9 @@ class NewsletterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$newsletter->isEditable()) {
+                throw new NonUpdatableException();
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('newsletter_index', [], Response::HTTP_SEE_OTHER);
@@ -89,6 +72,9 @@ class NewsletterController extends AbstractController
     public function delete(Request $request, Newsletter $newsletter, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$newsletter->getId(), $request->request->get('_token'))) {
+            foreach ($newsletter->getNews() as $news) {
+                $newsletter->removeNews($news);
+            }
             $entityManager->remove($newsletter);
             $entityManager->flush();
         }

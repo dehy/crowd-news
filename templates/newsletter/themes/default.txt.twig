@@ -1,0 +1,11 @@
+{% set date = date() %}
+Infolettre des entrepreneurs Coop'Alpha - {{ date|format_datetime(dateFormat="full", timeFormat="none", locale="fr") }}
+
+{% if newsletter.news.count > 0 %}
+    {% for news in newsletter.news %}
+        // {{ news.title }}, par {{ news.author }}
+        {{ news.abstract }}
+    {% endfor %}
+{% else %}
+    Aucune actualité pour cette semaine !
+{% endif %}

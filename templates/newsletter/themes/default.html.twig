@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Coop' News du {{ date|format_datetime(dateFormat="full", timeFormat="none", locale="fr") }}</title>
+        <title>Infolettre du {{ date|format_datetime(dateFormat="full", timeFormat="none", locale="fr") }}</title>
 
     </head>
     <body>
@@ -12,6 +12,10 @@
             Infolettre des entrepreneurs Coop'Alpha<br>
             <small>{{ date|format_datetime(dateFormat="full", timeFormat="none", locale="fr") }}</small>
         </h1>
+
+        <p>Bonjour et bienvenue dans cette nouvelle édition matinale de l'infolettre des entrepreneurs Coop'Alpha !</p>
+
+        <h2>Les actualités</h2>
 
         {% if newsletter.news.count > 0 %}
         <ul>
@@ -23,7 +27,13 @@
             {% endfor %}
         </ul>
         {% else %}
-            Aucune actualité pour cette semaine !
+            Aucune actualité pour cette semaine. À la semaine prochaine !
         {% endif %}
+
+        <h2>Comment partager son info</h2>
+
+        <p>
+            Connecte-toi sur <a href="https://crowdnews.admds.net">https://crowdnews.admds.net</a> et partage ton actualité !
+            Elle sera diffusée le lundi matin suivant.</p>
     </body>
 </html>

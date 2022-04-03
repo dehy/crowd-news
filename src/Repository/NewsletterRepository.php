@@ -22,62 +22,34 @@ class NewsletterRepository extends ServiceEntityRepository
         parent::__construct($registry, Newsletter::class);
     }
 
+    public function findSent(): array
+    {
+        return $this->createQueryBuilder('n')
+            ->where('n.sentAt IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
     /**
      * @throws NonUniqueResultException
-     * @throws NoResultException
      */
     public function findLast(): Newsletter
     {
         return $this->createQueryBuilder('n')
             ->where('n.sentAt IS NOT NULL')
-            ->orderBy('n.sent', 'DESC')
-            ->setMaxResults(1)
+            ->orderBy('n.sentAt', 'DESC')
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 
     /**
      * @throws NonUniqueResultException
-     * @throws NoResultException
      */
     public function findNext(): Newsletter
     {
         return $this->createQueryBuilder('n')
             ->where('n.sentAt IS NULL')
-            ->andWhere('n.sendAt > :now')
-            ->orderBy('n.sendAt', 'ASC')
-            ->setMaxResults(1)
-            ->setParameter('now', new DateTime())
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
-
-    // /**
-    //  * @return Newsletter[] Returns an array of Newsletter objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Newsletter
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

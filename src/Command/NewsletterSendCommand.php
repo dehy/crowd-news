@@ -7,19 +7,17 @@ use App\Entity\User;
 use App\Repository\NewsletterRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use IntlDateFormatter;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Message;
 use Twig\Environment;
 
 #[AsCommand(
@@ -60,21 +58,30 @@ class NewsletterSendCommand extends Command
         $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE, 'Europe/Paris');
 
         // TODO use Inky https://symfony.com/doc/current/mailer.html#inky-email-templating-language
-        $email = (new TemplatedEmail())
-            ->from('no-reply@admds.net')
+        $email = (new Email())
+            ->from(new Address('no-reply@admds.net', 'Coop\'Alpha'))
+            ->to(new Address('no-reply@admds.net', 'Les entrepreneurs Coop\'Alpha'))
             ->subject(sprintf('📰 Infolettre des entrepreneurs, %s', $formatter->format(time())))
-            ->htmlTemplate('newsletter/themes/default.html.twig')
-            ->context(['newsletter' => $newsletter]);
+            ->html($newsletter->getGeneratedHtml())
+            ->text($newsletter->getGeneratedTxt());
 
         foreach ($users as $user) {
-            $email->addTo(new Address($user->getEmail(), $user->__toString()));
+            $email->addBcc(new Address($user->getEmail(), $user->__toString()));
         }
 
-        try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            $io->error('Cannot send email');
-            $io->error($e->getMessage());
+        $rawEmail = $email->toString();
+        if (!$input->getOption('dry-run')) {
+            try {
+                $this->mailer->send($email);
+                // TODO save to file
+            } catch (TransportExceptionInterface $e) {
+                $io->error('Cannot send email');
+                $io->error($e->getMessage());
+            }
+        } else {
+            $io->info('Dry-Run mode enabled. Email (not) sent:');
+            $io->writeln($rawEmail);
+            $io->info('End of email');
         }
 
         $io->success('Newsletter sent!');

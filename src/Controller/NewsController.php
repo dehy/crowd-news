@@ -38,9 +38,6 @@ class NewsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $nextNewsletter = $entityManager->getRepository(Newsletter::class)->findNext();
-            $news->setNewsletter($nextNewsletter);
-
             $entityManager->persist($news);
             $entityManager->flush();
 

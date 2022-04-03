@@ -5,6 +5,12 @@
 {% block body %}
     <h1>Édition d'une infolettre</h1>
 
+    {% if not newsletter.isEditable %}
+        <div class="alert alert-warning">
+            Cette infolettre n'est pas modifiable.
+        </div>
+    {% endif %}
+
     {{ include('newsletter/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('newsletter_index') }}">retour à la liste</a>

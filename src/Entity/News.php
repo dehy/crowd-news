@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Exception\NonUpdatableException;
 use App\Repository\NewsRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -55,6 +56,7 @@ class News
 
     public function setTitle(string $title): self
     {
+        $this->assertCanUpdate();
         $this->title = $title;
 
         return $this;
@@ -67,6 +69,7 @@ class News
 
     public function setAbstract(string $abstract): self
     {
+        $this->assertCanUpdate();
         $this->abstract = $abstract;
 
         return $this;
@@ -79,6 +82,7 @@ class News
 
     public function setContent(string $content): self
     {
+        $this->assertCanUpdate();
         $this->content = $content;
 
         return $this;
@@ -91,6 +95,7 @@ class News
 
     public function setEventDate(?DateTimeImmutable $eventDate): self
     {
+        $this->assertCanUpdate();
         $this->eventDate = $eventDate;
 
         return $this;
@@ -103,6 +108,7 @@ class News
 
     public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
+        $this->assertCanUpdate();
         $this->createdAt = $createdAt;
 
         return $this;
@@ -120,6 +126,7 @@ class News
 
     public function setDeletedAt(?DateTimeImmutable $deletedAt): self
     {
+        $this->assertCanUpdate();
         $this->deletedAt = $deletedAt;
 
         return $this;
@@ -132,6 +139,7 @@ class News
 
     public function setNewsletter(?Newsletter $newsletter): self
     {
+        $this->assertCanUpdate();
         $this->newsletter = $newsletter;
 
         return $this;
@@ -144,8 +152,19 @@ class News
 
     public function setAuthor(?User $author): self
     {
+        $this->assertCanUpdate();
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * @throws NonUpdatableException
+     */
+    protected function assertCanUpdate(): void
+    {
+        if ($this->getNewsletter() && $this->getNewsletter()->isSent()) {
+            throw new NonUpdatableException('News is linked to a sent newsletter');
+        }
     }
 }
