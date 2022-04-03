@@ -6,6 +6,7 @@ use App\Entity\Newsletter;
 use App\Exception\NonUpdatableException;
 use App\Form\NewsletterType;
 use App\Repository\NewsletterRepository;
+use App\Service\NewsletterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +25,9 @@ class NewsletterController extends AbstractController
     }
 
     #[Route('/next', name: 'newsletter_next', methods: ['GET'])]
-    public function next(EntityManagerInterface $entityManager): Response
+    public function next(NewsletterService $newsletterService): Response
     {
-        $newsletter = $entityManager->getRepository(Newsletter::class)->findNext();
+        $newsletter = $newsletterService->nextNewsletter();
 
         return $this->show($newsletter);
     }
@@ -37,6 +38,14 @@ class NewsletterController extends AbstractController
         return $this->render('newsletter/show.html.twig', [
             'newsletter' => $newsletter,
         ]);
+    }
+
+    #[Route('/next/preview', name: 'newsletter_next_preview', methods: ['GET'])]
+    public function nextPreview(NewsletterService $newsletterService): Response
+    {
+        $newsletter = $newsletterService->nextNewsletter();
+
+        return $this->renderHtml($newsletter);
     }
 
     #[Route('/{id}/preview', name: 'newsletter_preview_html', methods: ['GET'])]

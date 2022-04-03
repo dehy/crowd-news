@@ -11,7 +11,7 @@
                 <tbody>
                 <tr>
                     <th>Id</th>
-                    <td>{{ newsletter.id }}</td>
+                    <td>{{ newsletter.id ?? 'next' }}</td>
                 </tr>
                 <tr>
                     <th>Prévue pour le</th>
@@ -26,12 +26,12 @@
 
             <a href="{{ path('newsletter_index') }}">retour à la liste</a>
 
-            <a href="{{ path('newsletter_edit', {'id': newsletter.id}) }}">modifier</a>
-
+            {% if newsletter.id %}
             {{ include('newsletter/_delete_form.html.twig') }}
+            {% endif %}
         </div>
         <div class="col-8">
-            <iframe class="w-100 border border-1 rounded p-3" style="min-height: 600px" title="Aperçu" src="{{ path('newsletter_preview_html', {'id': newsletter.id}) }}"></iframe>
+            <iframe class="w-100 border border-1 rounded p-3" style="min-height: 600px" title="Aperçu" src="{{ path('newsletter_preview_html', {'id': newsletter.id ?? 'next'}) }}"></iframe>
         </div>
     </div>
 {% endblock %}

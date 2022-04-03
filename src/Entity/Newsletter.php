@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Exception\NonUpdatableException;
 use App\Repository\NewsletterRepository;
 use DateTimeImmutable;
-use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +15,7 @@ class Newsletter
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private ?int $id;
+    private ?int $id = null;
 
     #[ORM\OneToMany(mappedBy: 'newsletter', targetEntity: News::class)]
     private Collection $news;

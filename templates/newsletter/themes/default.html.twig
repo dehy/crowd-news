@@ -23,6 +23,7 @@
             <li>
                 <h3>{{ news.title }} <small class="author">par {{ news.author }}</small></h3>
                 <p>{{ news.abstract }}</p>
+                <a href="{{ news.url }}" target="_blank" rel="noopener">{{ news.url }}</a>
             </li>
             {% endfor %}
         </ul>
@@ -30,10 +31,10 @@
             Aucune actualité pour cette semaine. À la semaine prochaine !
         {% endif %}
 
-        <h2>Comment partager son info</h2>
+        <h3>Comment partager son actualité</h3>
 
         <p>
-            Connecte-toi sur <a href="https://crowdnews.admds.net">https://crowdnews.admds.net</a> et partage ton actualité !
+            Connecte-toi sur <a href="https://crowdnews.admds.net" target="_blank" rel="noopener">https://crowdnews.admds.net</a> et suis le chemin !
             Elle sera diffusée le lundi matin suivant.</p>
     </body>
 </html>

@@ -24,6 +24,10 @@
                 <td>{{ news.content }}</td>
             </tr>
             <tr>
+                <th>URL</th>
+                <td>{{ news.url }}</td>
+            </tr>
+            <tr>
                 <th>Date de l'évènement</th>
                 <td>{{ news.eventDate ? news.eventDate|date('Y-m-d') : '' }}</td>
             </tr>
@@ -34,6 +38,14 @@
             <tr>
                 <th>Supprimée le</th>
                 <td>{{ news.deletedAt ? news.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Incluse dans</th>
+                <td>
+                    {% if news.newsletter %}
+                    <a href="{{ path('newsletter_show', {'id': news.newsletter.id}) }}">{{ newsletter }}</a>
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>

@@ -6,6 +6,7 @@ use App\Exception\NonUpdatableException;
 use App\Repository\NewsRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: NewsRepository::class)]
 class News
@@ -24,6 +25,10 @@ class News
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $content;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Url]
+    private ?string $url;
+
     #[ORM\Column(type: 'date_immutable', nullable: true)]
     private ?DateTimeImmutable $eventDate;
 
@@ -34,7 +39,7 @@ class News
     private ?DateTimeImmutable $deletedAt;
 
     #[ORM\ManyToOne(targetEntity: Newsletter::class, inversedBy: 'news')]
-    private ?Newsletter $newsletter;
+    private ?Newsletter $newsletter = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'news')]
     #[ORM\JoinColumn(nullable: false)]
@@ -84,6 +89,18 @@ class News
     {
         $this->assertCanUpdate();
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }

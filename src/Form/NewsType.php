@@ -29,6 +29,9 @@ class NewsType extends AbstractType
             ->add('content', null, [
                 'label' => 'Contenu de l\'actualité',
             ])
+            ->add('url', null, [
+                'label' => 'URL',
+            ])
         ;
     }
 

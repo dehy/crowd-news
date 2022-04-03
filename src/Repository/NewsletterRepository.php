@@ -45,7 +45,7 @@ class NewsletterRepository extends ServiceEntityRepository
     /**
      * @throws NonUniqueResultException
      */
-    public function findNext(): Newsletter
+    public function findNext(): ?Newsletter
     {
         return $this->createQueryBuilder('n')
             ->where('n.sentAt IS NULL')
