@@ -55,7 +55,7 @@ class NewsletterSendCommand extends Command
         $newsletterRepository = $this->entityManager->getRepository(Newsletter::class);
         $newsletter = $newsletterRepository->findScheduled();
 
-        $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE, 'Europe/Paris');
+        $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
 
         // TODO use Inky https://symfony.com/doc/current/mailer.html#inky-email-templating-language
         $email = (new Email())

@@ -17,11 +17,11 @@ class NewsletterService
     }
 
     public function lastChanceToSubmitDate(): DateTimeImmutable {
-        return new DateTimeImmutable('next sunday 6pm', new DateTimeZone('Europe/Paris'));
+        return new DateTimeImmutable('next sunday 6pm');
     }
 
     public function isTooLateForThisWeek(): bool {
-        $diff = $this->nextNewsletterDate()->diff(new DateTimeImmutable('now', new DateTimeZone('Europe/Paris')));
+        $diff = $this->nextNewsletterDate()->diff(new DateTimeImmutable('now'));
         if ($diff->y === 0 || $diff->m === 0 || $diff->d === 0 || $diff->h < 12) {
             return false;
         }
@@ -32,7 +32,7 @@ class NewsletterService
      * @throws Exception
      */
     public function nextNewsletterDate(): DateTimeImmutable {
-        return new DateTimeImmutable('next monday 6am', new DateTimeZone('Europe/Paris'));
+        return new DateTimeImmutable('next monday 6am');
     }
 
     /**

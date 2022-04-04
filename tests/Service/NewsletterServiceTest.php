@@ -19,7 +19,7 @@ class NewsletterServiceTest extends TestCase
     public function testNextNewsletterDate(EntityManagerInterface $entityManager): void
     {
         $newsletterService = new NewsletterService($entityManager);
-        $next = new DateTime('next monday 6am', new DateTimeZone('Europe/Paris'));
+        $next = new DateTime('next monday 6am');
 
         static::assertEquals($next, $newsletterService->nextNewsletterDate());
     }
@@ -46,7 +46,7 @@ class NewsletterServiceTest extends TestCase
         $newsletterService = new NewsletterService();
         $newsletter = $newsletterService->nextNewsletter();
 
-        $nextDate = new DateTime('next monday 6am', new DateTimeZone('Europe/Paris'));
+        $nextDate = new DateTime('next monday 6am');
         static::assertEquals($nextDate, $newsletter->getScheduledFor());
         static::assertCount(2, $newsletter->getNews());
     }
