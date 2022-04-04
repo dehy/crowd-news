@@ -20,6 +20,7 @@ apt-key add /docker/build/nodesource.gpg.key
 apt-get update
 apt-get upgrade -y
 apt-get install -y --no-install-recommends \
+    tzdata \
     ca-certificates \
     cron \
     curl \
