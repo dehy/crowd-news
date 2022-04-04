@@ -54,7 +54,7 @@ class NewsletterPrepareCommand extends Command
 
         /** @var NewsletterRepository $newsletterRepository */
         $newsletterRepository = $this->entityManager->getRepository(Newsletter::class);
-        if (null !== $currentlyScheduledNewsletter = $newsletterRepository->findNext()) {
+        if (null !== $currentlyScheduledNewsletter = $newsletterRepository->findScheduled()) {
             foreach ($currentlyScheduledNewsletter->getNews() as $news) {
                 $currentlyScheduledNewsletter->removeNews($news);
             }

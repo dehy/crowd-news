@@ -53,7 +53,7 @@ class NewsletterSendCommand extends Command
 
         /** @var NewsletterRepository $newsletterRepository */
         $newsletterRepository = $this->entityManager->getRepository(Newsletter::class);
-        $newsletter = $newsletterRepository->findNext();
+        $newsletter = $newsletterRepository->findScheduled();
 
         $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE, 'Europe/Paris');
 
