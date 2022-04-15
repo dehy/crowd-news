@@ -42,6 +42,11 @@ class Newsletter
         return $this->id;
     }
 
+    public function isScheduled(): bool
+    {
+        return $this->getId() === null;
+    }
+
     /**
      * @return Collection<int, News>
      */

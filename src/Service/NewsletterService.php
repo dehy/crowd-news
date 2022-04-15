@@ -43,11 +43,15 @@ class NewsletterService
             'newsletter' => null,
         ]);
 
-        $newsletter = (new Newsletter())
-            ->setScheduledFor($this->nextNewsletterDate());
+        $newsletter = $this->entityManager->getRepository(Newsletter::class)->findScheduled();
 
-        foreach ($news as $aNews) {
-            $newsletter->addNews($aNews);
+        if ($newsletter === null) {
+            $newsletter = (new Newsletter())
+                ->setScheduledFor($this->nextNewsletterDate());
+
+            foreach ($news as $aNews) {
+                $newsletter->addNews($aNews);
+            }
         }
 
         return $newsletter;
