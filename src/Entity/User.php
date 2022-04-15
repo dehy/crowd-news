@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-        return sprintf('%s %s', $this->getFirstname(), $this->getLastname());
+        return $this->getFullname();
     }
 
     public function getId(): ?int
@@ -168,5 +168,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    public function getFullname(): string
+    {
+        return sprintf('%s %s', $this->getFirstname(), $this->getLastname());
     }
 }

@@ -105,8 +105,11 @@ class Newsletter
         return $this;
     }
 
-    public function getGeneratedHtml(): ?string
+    public function getGeneratedHtml(?User $user = null): ?string
     {
+        if ($user !== null) {
+            return str_replace('%%user.firstname%%', $user->getFirstname(), $this->generatedHtml);
+        }
         return $this->generatedHtml;
     }
 
@@ -118,8 +121,11 @@ class Newsletter
         return $this;
     }
 
-    public function getGeneratedTxt(): ?string
+    public function getGeneratedTxt(?User $user = null): ?string
     {
+        if ($user !== null) {
+            return str_replace('%%user.firstname%%', $user->getFirstname(), $this->generatedTxt);
+        }
         return $this->generatedTxt;
     }
 

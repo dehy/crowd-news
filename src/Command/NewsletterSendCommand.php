@@ -6,6 +6,8 @@ use App\Entity\Newsletter;
 use App\Entity\User;
 use App\Repository\NewsletterRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use IntlDateFormatter;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -13,12 +15,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 #[AsCommand(
     name: 'app:newsletter:send',
@@ -39,11 +43,11 @@ class NewsletterSendCommand extends Command
     }
 
     /**
-     * @throws \Twig\Error\SyntaxError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Twig\Error\LoaderError
-     * @throws \Doctrine\ORM\NoResultException
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws NonUniqueResultException
+     * @throws LoaderError
+     * @throws NoResultException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -57,34 +61,45 @@ class NewsletterSendCommand extends Command
 
         $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
 
-        // TODO use Inky https://symfony.com/doc/current/mailer.html#inky-email-templating-language
-        $email = (new Email())
-            ->from(new Address('no-reply@admds.net', 'Coop\'Alpha'))
-            ->to(new Address('no-reply@admds.net', 'Les entrepreneurs Coop\'Alpha'))
-            ->subject(sprintf('📰 Infolettre des entrepreneurs, %s', $formatter->format(time())))
+        $emailsCount = 0;
+
+        $from = new Address('no-reply@coopalpha.coop', 'Coop\'Alpha');
+        $subject = sprintf('📰 Infolettre des entrepreneurs, %s', $formatter->format(time()));
+
+        $referenceEmail = (new Email())
+            ->from($from)
+            ->to('no-reply@coopalpha.coop')
+            ->subject($subject)
             ->html($newsletter->getGeneratedHtml())
             ->text($newsletter->getGeneratedTxt());
 
-        foreach ($users as $user) {
-            $email->addBcc(new Address($user->getEmail(), $user->__toString()));
-        }
-
-        $rawEmail = $email->toString();
         if (!$input->getOption('dry-run')) {
-            try {
-                $this->mailer->send($email);
-                // TODO save to file
-            } catch (TransportExceptionInterface $e) {
-                $io->error('Cannot send email');
-                $io->error($e->getMessage());
+            foreach ($users as $user) {
+                $to = new Address($user->getEmail(), $user->getFullname());
+                // TODO use Inky https://symfony.com/doc/current/mailer.html#inky-email-templating-language
+                $email = (new Email())
+                    ->from($from)
+                    ->to($to)
+                    ->subject($subject)
+                    ->html($newsletter->getGeneratedHtml($user))
+                    ->text($newsletter->getGeneratedTxt($user));
+
+                try {
+                    $this->mailer->send($email);
+                    $emailsCount += 1;
+                    // TODO save to file
+                } catch (TransportExceptionInterface $e) {
+                    $io->error(sprintf('Cannot send email to %s', $to->toString()));
+                    $io->error($e->getMessage());
+                }
             }
         } else {
             $io->info('Dry-Run mode enabled. Email (not) sent:');
-            $io->writeln($rawEmail);
+            $io->writeln($referenceEmail->toString());
             $io->info('End of email');
         }
 
-        $io->success('Newsletter sent!');
+        $io->success(sprintf('%s emails sent!', $emailsCount));
 
         return Command::SUCCESS;
     }
