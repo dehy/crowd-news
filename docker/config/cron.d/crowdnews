@@ -1,2 +1,2 @@
-5 18 * * 0 symfony /app/bin/console app:newsletter:prepare
-0 6 * * 1 symfony /app/bin/console app:newsletter:send
+5 18 * * 7 symfony /app/bin/console app:newsletter:prepare && [[ -n "$HEALTHCHECK_PREPARE_UUID" ]] && curl -m 10 --retry 5 https://hc-ping.com/$HEALTHCHECK_PREPARE_UUID
+0 6 * * 1 symfony /app/bin/console app:newsletter:send && [[ -n "$HEALTHCHECK_SEND_UUID" ]] && curl -m 10 --retry 5 https://hc-ping.com/$HEALTHCHECK_SEND_UUID

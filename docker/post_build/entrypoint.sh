@@ -44,8 +44,12 @@ then
 fi
 export APP_ENV=${ORIGINAL_APP_ENV}
 
-# Setting APP_ENV into /etc/environment to be available to cron
-echo "APP_ENV=${APP_ENV}" >> /etc/environment
+# Setting variable into /etc/environment to be available to cron
+cat >>/etc/environment <<EOL
+APP_ENV=${APP_ENV}
+HEALTHCHECK_PREPARE_UUID=${HEALTHCHECK_PREPARE_UUID:-""}
+HEALTHCHECK_SEND_UUID=${HEALTHCHECK_SEND_UUID:-""}
+EOL
 
 if [[ "${APP_ENV}" == "dev" ]]; then
     sed -i \

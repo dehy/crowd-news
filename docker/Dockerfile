@@ -13,6 +13,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.schema-version="1.0"
 
 ENV TZ="Europe/Paris"
+ENV APP_ENV="prod"
 
 VOLUME /var/lib/php/sessions
 
