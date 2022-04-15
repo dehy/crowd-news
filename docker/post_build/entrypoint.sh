@@ -44,6 +44,9 @@ then
 fi
 export APP_ENV=${ORIGINAL_APP_ENV}
 
+# Setting APP_ENV into /etc/environment to be available to cron
+echo "APP_ENV=${APP_ENV}" >> /etc/environment
+
 if [[ "${APP_ENV}" == "dev" ]]; then
     sed -i \
         -e 's!\(error_reporting\) = .*!\1 = E_ALL!' \
