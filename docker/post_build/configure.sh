@@ -22,7 +22,8 @@ ${GOSU} /usr/local/bin/composer dump-autoload --no-dev --classmap-authoritative
 ${GOSU} /usr/local/bin/composer clear-cache --no-interaction
 ${GOSU} /usr/bin/yarn install --immutable
 ${GOSU} /usr/bin/yarn build
-${GOSU} rm -rf /app/{node_modules,.bash*,.cache,.config,.local,.npm,.yarn,.yarnrc}
+${GOSU} /usr/bin/yarn workspaces focus --production
+${GOSU} rm -rf /app/{.bash*,.cache,.config,.local,.npm,.yarn,.yarnrc}
 
 ${GOSU} bin/console assets:install public --symlink --relative
 
