@@ -28,5 +28,8 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "packageManager": "yarn@3.2.0"
+    "packageManager": "yarn@3.2.0",
+    "dependencies": {
+        "foundation-emails": "^2.4.0"
+    }
 }

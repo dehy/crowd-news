@@ -3638,6 +3638,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"foundation-emails@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "foundation-emails@npm:2.4.0"
+  checksum: 53e94ff57fb151942039dd624f8145c43e0822b5015ccf7c10cf93e5a2a199358e479406ff2b558af4d9b1bf2b9bd89c5cfcbef6ef9d9505ac8cd4092bfcc74d
+  languageName: node
+  linkType: hard
+
 "fresh@npm:0.5.2":
   version: 0.5.2
   resolution: "fresh@npm:0.5.2"
@@ -6029,6 +6036,7 @@ __metadata:
     bootstrap: ^5.1.3
     core-js: ^3.0.0
     file-loader: 6.0.0
+    foundation-emails: ^2.4.0
     regenerator-runtime: ^0.13.2
     sass: ^1.49.9
     sass-loader: ^12.0.0
