@@ -23,17 +23,17 @@
     </div>
 
     <div class="row">
-        <div class="col">
-            <ul class="nav nav-tabs mx-auto" style="width: 30rem;">
+        <div class="col-sm-12 col-lg-4 mx-auto">
+            <ul class="nav nav-tabs mx-auto">
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.attributes.get('_route') == 'login' ? 'active' }}" href="{{ path('login') }}">Connexion</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.attributes.get('_route') == 'register' ? 'active' }}" href="{{ path('register') }}">Enregistrement</a>
             </ul>
-            <div class="card mx-auto border-top-0 rounded-0 rounded-bottom" style="width: 30rem;">
+            <div class="card mx-auto border-top-0 rounded-0 rounded-bottom">
                 <div class="card-body">
-                    {{ block('content') }}
+                    {{ block('body') }}
                 </div>
             </div>
         </div>

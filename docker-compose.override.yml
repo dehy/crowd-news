@@ -10,7 +10,7 @@ services:
       - app-public-build:/app/public/build
       - app-dotcache:/app/.cache
     ports:
-      - 8080:80
+      - "8080:80"
         
 
 ###> doctrine/doctrine-bundle ###
@@ -23,7 +23,7 @@ services:
   mailer:
     image: schickling/mailcatcher
     ports:
-      - 1080:1080
+      - "1080:1080"
 ###< symfony/mailer ###
 
 volumes:
