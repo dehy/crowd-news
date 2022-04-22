@@ -23,10 +23,10 @@
         {% for news in news %}
             <tr>
                 <td>{{ news.id }}</td>
-                <td><a href="#">{{ news.author }}</a></td>
+                <td>{{ news.author }}</td>
                 <td>{{ news.title }}</td>
                 <td>{{ news.abstract }}</td>
-                <td>{{ news.content }}</td>
+                <td>{{ news.content|u.truncate(50, '...', false) }}</td>
                 <td>{{ news.eventDate ? news.eventDate|date('Y-m-d') : '' }}</td>
                 <td>{{ news.createdAt ? news.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ news.deletedAt ? news.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
