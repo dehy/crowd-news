@@ -22,11 +22,7 @@ class UserType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
             ])
-            ->add('email', EmailType::class)
-            ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe',
-                'mapped' => false,
-            ])
+          ->add('email', EmailType::class)
         ;
     }
 

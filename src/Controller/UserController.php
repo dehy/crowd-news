@@ -31,7 +31,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plaintextPassword = $form->get('plaintext_password')->getData();
+            $plaintextPassword = bin2hex(random_bytes(24));
             $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
 
@@ -62,7 +62,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plaintextPassword = $form->get('plaintext_password')->getData();
+            $plaintextPassword = bin2hex(random_bytes(24));
             $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
 
