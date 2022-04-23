@@ -69,6 +69,9 @@ if [[ "${APP_ENV}" == "dev" || "${APP_ENV}" == "test"  ]]; then
     chown symfony: ${APP_ROOT_PATH}/node_modules
     chown symfony: ${APP_ROOT_PATH}/vendor
     chown symfony: ${APP_ROOT_PATH}/var/log
+
+    ${GOSU} composer install
+    ${GOSU} yarn install
 fi
 
 DATABASE_URL_PARTS=$(php -r "echo json_encode(parse_url('${DATABASE_URL}'));")
