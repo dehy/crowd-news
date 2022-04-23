@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Newsletter;
 use App\Entity\User;
 use App\Repository\NewsletterRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -93,6 +94,8 @@ class NewsletterSendCommand extends Command
                     $io->error($e->getMessage());
                 }
             }
+            $newsletter->setSentAt(new DateTimeImmutable());
+            $this->entityManager->flush();
         } else {
             $io->info('Dry-Run mode enabled. Email (not) sent:');
             $io->writeln($referenceEmail->toString());
