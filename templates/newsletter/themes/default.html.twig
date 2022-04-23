@@ -102,7 +102,7 @@
                                             <table>
                                                 <tr>
                                                     <th>
-                                                        <h1>Bonjour %%user.firstname%% !</h1>
+                                                        <h1>Bonjour, %%user.firstname%% !</h1>
                                                         <p class="lead">
                                                             Bienvenue dans cette nouvelle édition hebdomadaire de l'infolettre des entrepreneurs Coop'Alpha !
                                                             Voici sans plus attendre les actualités de la semaine.
@@ -121,7 +121,7 @@
                                                                 {{ _self.news(news) }}
                                                             {% endfor %}
                                                         {% else %}
-
+                                                            Il semble qu'il n'y ai aucune actualité pour cette semaine ! À la semaine prochaine !
                                                         {% endif %}
                                                     </th>
                                                     <th class="expander"></th>
@@ -186,41 +186,6 @@
             </td>
         </tr>
     </table>
-
-{#
-    <h1>
-        Infolettre des entrepreneurs Coop'Alpha<br>
-        <small>{{ date|format_datetime(dateFormat="full", timeFormat="none", locale="fr") }}</small>
-    </h1>
-
-    <p>Bonjour et bienvenue dans cette nouvelle édition matinale de l'infolettre des entrepreneurs Coop'Alpha !</p>
-
-    <h2>Les actualités</h2>
-
-    {% if newsletter.news.count > 0 %}
-    <ul>
-        {% for news in newsletter.news %}
-        <li>
-            <h3>{{ news.title }} <small class="author">par {{ news.author }}</small></h3>
-            <p>{{ news.abstract }}</p>
-            {% if news.content %}
-                <p>{{ news.content }}</p>
-            {% endif %}
-            {% if news.url %}
-                Lien : <a href="{{ news.url }}" target="_blank" rel="noopener">{{ news.url }}</a>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-        Aucune actualité pour cette semaine. À la semaine prochaine !
-    {% endif %}
-
-    <h3>Comment partager son actualité</h3>
-
-    <p>
-        Connecte-toi sur <a href="https://crowdnews.admds.net" target="_blank" rel="noopener">https://crowdnews.admds.net</a> et suis le chemin !
-        Elle sera diffusée le lundi matin suivant.</p>#}
 </body>
 </html>
 

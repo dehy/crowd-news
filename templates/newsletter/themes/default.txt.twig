@@ -1,11 +1,32 @@
-{% set date = date() %}
-Infolettre des entrepreneurs Coop'Alpha - {{ date|format_datetime(dateFormat="full", timeFormat="none", locale="fr") }}
+{% set date = newsletter.scheduledFor() %}
+# Infolettre des entrepreneurs Coop'Alpha - {{ date|format_datetime(dateFormat="full", timeFormat="none", locale="fr") }}
+
+Bonjour, %%user.firstname%% !
+
+Bienvenue dans cette nouvelle édition hebdomadaire de l'infolettre des entrepreneurs Coop'Alpha !
+Voici sans plus attendre les actualités de la semaine.
 
 {% if newsletter.news.count > 0 %}
-    {% for news in newsletter.news %}
-        // {{ news.title }}, par {{ news.author }}
-        {{ news.abstract }}
-    {% endfor %}
+{% for news in newsletter.news %}
+// {{ news.title }}, par {{ news.author }}
+{{ news.abstract }}
+
+{% if news.content %}{{ news.content }}{% endif %}
+
+{% if news.url %}Plus d'information sur {{ news.url }}{% endif %}
+{% endfor %}
 {% else %}
-    Aucune actualité pour cette semaine !
+Il semble qu'il n'y ai aucune actualité pour cette semaine !
+
+À la semaine prochaine !
 {% endif %}
+
+## Comment partager ton actualité
+
+Connecte-toi sur https://crowdnews.admds.net et suis le chemin !
+Elle sera diffusée le lundi matin suivant.
+
+------------
+Mentions légales : https://www.coopalpha.coop/page/mentions-legales
+Respect de la vie privée :
+Se désinscrire de la newsletter :
