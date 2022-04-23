@@ -3,25 +3,21 @@
 namespace App\Command;
 
 use App\Entity\Newsletter;
-use App\Entity\User;
 use App\Repository\NewsletterRepository;
 use App\Service\NewsletterService;
 use Doctrine\ORM\EntityManagerInterface;
-use IntlDateFormatter;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Message;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 #[AsCommand(
     name: 'app:newsletter:prepare',
@@ -42,11 +38,11 @@ class NewsletterPrepareCommand extends Command
     }
 
     /**
-     * @throws \Twig\Error\SyntaxError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Twig\Error\LoaderError
-     * @throws \Doctrine\ORM\NoResultException
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws NonUniqueResultException
+     * @throws LoaderError
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
