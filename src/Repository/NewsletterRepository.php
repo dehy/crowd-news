@@ -26,6 +26,7 @@ class NewsletterRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('n')
             ->where('n.sentAt IS NOT NULL')
+            ->orderBy('n.sentAt', 'DESC')
             ->getQuery()
             ->getResult();
     }

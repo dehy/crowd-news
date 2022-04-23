@@ -1,38 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}News index{% endblock %}
+{% block title %}Liste des actualités{% endblock %}
 
 {% block body %}
-    <h1>Liste des actualités</h1>
+    <h1>
+        Prochaines actualités
+        <a href="{{ path('news_new') }}" class="btn btn-sm btn-primary">Partager mon actualité</a>
+    </h1>
 
+    {{ _self.news_table(news|filter(n => not n.newsletter)) }}
+
+    <h2>Actualités déjà envoyées</h2>
+
+    {{ _self.news_table(news|filter(n => n.newsletter)) }}
+
+{% endblock %}
+
+{% macro news_table(news) %}
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Auteur</th>
-                <th>Titre</th>
-                <th>Extrait</th>
-                <th>Contenu</th>
-                <th>Date de l'évènement</th>
-                <th>Créée le</th>
-                <th>Supprimée le</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Type</th>
+            <th>Auteur</th>
+            <th>Titre</th>
+            <th>Extrait</th>
+            <th>Contenu</th>
+            <th>Date de l'évènement</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for news in news %}
             <tr>
-                <td>{{ news.id }}</td>
+                <td></td>
                 <td>{{ news.author }}</td>
                 <td>{{ news.title }}</td>
                 <td>{{ news.abstract }}</td>
                 <td>{{ news.content|u.truncate(50, '...', false) }}</td>
                 <td>{{ news.eventDate ? news.eventDate|date('Y-m-d') : '' }}</td>
-                <td>{{ news.createdAt ? news.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ news.deletedAt ? news.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('news_show', {'id': news.id}) }}">show</a>
-                    <a href="{{ path('news_edit', {'id': news.id}) }}">edit</a>
+                    <a href="{{ path('news_show', {'id': news.id}) }}">lire</a>
+                    <a href="{{ path('news_edit', {'id': news.id}) }}">modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -42,6 +50,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('news_new') }}">Nouvelle actualité</a>
-{% endblock %}
+{% endmacro %}

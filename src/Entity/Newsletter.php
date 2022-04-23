@@ -112,10 +112,7 @@ class Newsletter
 
     public function getGeneratedHtml(?User $user = null): ?string
     {
-        if ($user !== null) {
-            return str_replace('%%user.firstname%%', $user->getFirstname(), $this->generatedHtml);
-        }
-        return $this->generatedHtml;
+        return $this->replaceTokens($this->generatedHtml, $user);
     }
 
     public function setGeneratedHtml(?string $generatedHtml): self
@@ -128,10 +125,7 @@ class Newsletter
 
     public function getGeneratedTxt(?User $user = null): ?string
     {
-        if ($user !== null) {
-            return str_replace('%%user.firstname%%', $user->getFirstname(), $this->generatedTxt);
-        }
-        return $this->generatedTxt;
+        return $this->replaceTokens($this->generatedTxt, $user);;
     }
 
     public function setGeneratedTxt(?string $generatedTxt): self
@@ -155,5 +149,24 @@ class Newsletter
     public function isEditable(): bool
     {
         return $this->getSentAt() === null;
+    }
+
+    public function getStatus(): string
+    {
+        if ($this->isSent()) {
+            return 'sent';
+        }
+        if ($this->getGeneratedHtml()) {
+            return 'in_pipeline';
+        }
+        return 'draft';
+    }
+
+    protected function replaceTokens(string $content, ?User $user): string
+    {
+        if ($user !== null) {
+            $content = str_replace('%%user.firstname%%', $user->getFirstname(), $content);
+        }
+        return $content;
     }
 }

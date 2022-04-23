@@ -6,20 +6,20 @@
     <h1>Infolettre</h1>
 
     <div class="row">
-        <div class="col-4">
+        <div class="col-lg-4 col-sm-12">
             <table class="table">
                 <tbody>
                 <tr>
-                    <th>Id</th>
-                    <td>{{ newsletter.id ?? 'next' }}</td>
+                    <th>Numéro</th>
+                    <td>{{ newsletter.id ?? 'prochaine' }}</td>
                 </tr>
                 <tr>
                     <th>Prévue pour le</th>
-                    <td>{{ newsletter.scheduledFor ? newsletter.scheduledFor|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ newsletter.scheduledFor ? newsletter.scheduledFor|date('Y-m-d à H:i:s') : '' }}</td>
                 </tr>
                 <tr>
                     <th>Envoyée le</th>
-                    <td>{{ newsletter.sentAt ? newsletter.sentAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ newsletter.sentAt ? newsletter.sentAt|date('Y-m-d à H:i:s') : '-' }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -30,7 +30,7 @@
             {{ include('newsletter/_delete_form.html.twig') }}
             {% endif %}
         </div>
-        <div class="col-8">
+        <div class="col-lg-8 col-sm-12">
             <iframe class="w-100 border border-1 rounded p-3" style="min-height: 600px" title="Aperçu" src="{{ path('newsletter_preview_html', {'id': newsletter.id ?? 'next'}) }}"></iframe>
         </div>
     </div>

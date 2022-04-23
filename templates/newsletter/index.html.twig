@@ -8,8 +8,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Status</th>
+                <th>Date</th>
                 <th>Nombre d'actualités</th>
                 <th>actions</th>
             </tr>
@@ -17,7 +17,6 @@
         <tbody>
         {% for newsletter in newsletters %}
             <tr>
-                <td>{{ newsletter.id }}</td>
                 <td>
                     {% if newsletter.isSent %}
                         <span class="badge bg-success">envoyée</span>
@@ -25,6 +24,7 @@
                         <span class="badge bg-secondary">brouillon</span>
                     {% endif %}
                 </td>
+                <td>{{ newsletter.sentAt|date('d/m/Y à H:i:s') }}</td>
                 <td>{{ newsletter.news.count }}</td>
                 <td>
                     <a href="{{ path('newsletter_show', {'id': newsletter.id}) }}">voir</a>

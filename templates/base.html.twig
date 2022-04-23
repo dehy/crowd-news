@@ -45,7 +45,7 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" href="{{ path('news_new') }}">
-                                        <span class="fas fa-plus-square fa-fw"></span> Nouvelle actualité
+                                        <span class="fas fa-bullhorn fa-fw"></span> Partager mon actualité
                                     </a>
                                 </li>
                             </ul>
@@ -85,6 +85,9 @@
                         {% endif %}
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <a href="{{ path('news_new') }}" class="btn btn-primary">
+                            <em class="fa-solid fa-bullhorn"></em> Partager mon actualité
+                        </a>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ app.user }} <span class="fas fa-user fa-fw"></span>
