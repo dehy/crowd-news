@@ -64,10 +64,16 @@ class NewsletterPrepareCommand extends Command
         $newsletter->setGeneratedHtml($html);
         $newsletter->setGeneratedTxt($txt);
 
-        $this->entityManager->persist($newsletter);
-        $this->entityManager->flush();
+        if (!$input->getOption('dry-run')) {
+            $this->entityManager->persist($newsletter);
+            $this->entityManager->flush();
 
-        $io->success(sprintf('Newsletter prepared and ready to be sent on %s', $newsletter->getScheduledFor()->format('d/m/Y H:i')));
+            $io->success(sprintf('Newsletter prepared and ready to be sent on %s', $newsletter->getScheduledFor()->format('d/m/Y H:i')));
+        } else {
+            $io->info('Here is what would look like the TXT version of the newsletter');
+            $output->writeln($newsletter->getGeneratedTxt());
+        }
+
 
         return Command::SUCCESS;
     }
