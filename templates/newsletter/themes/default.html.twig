@@ -195,6 +195,7 @@
     {% if news.content %}
         <p>{{ news.content|nl2br }}</p>
     {% endif %}
+    {% if news.url %}
     <table class="button large secondary">
         <tr>
             <td>
@@ -206,4 +207,5 @@
             </td>
         </tr>
     </table>
+    {% endif %}
 {% endmacro %}
