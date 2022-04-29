@@ -64,11 +64,9 @@ class NewsletterSendCommand extends Command
 
         $emailsCount = 0;
 
-        $from = new Address('no-reply@coopalpha.coop', 'Coop\'Alpha');
         $subject = sprintf('📰 Infolettre des entrepreneurs, %s', $formatter->format(time()));
 
         $referenceEmail = (new Email())
-            ->from($from)
             ->to('no-reply@coopalpha.coop')
             ->subject($subject)
             ->html($newsletter->getGeneratedHtml())
@@ -79,7 +77,6 @@ class NewsletterSendCommand extends Command
                 $to = new Address($user->getEmail(), $user->getFullname());
                 // TODO use Inky https://symfony.com/doc/current/mailer.html#inky-email-templating-language
                 $email = (new Email())
-                    ->from($from)
                     ->to($to)
                     ->subject($subject)
                     ->html($newsletter->getGeneratedHtml($user))
